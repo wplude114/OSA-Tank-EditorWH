@@ -251,6 +251,9 @@ const drawEntity = (baseColor, x, y, code, rotation) => {
     ctx.lineWidth = (zoom*4.175)*(code.STROKE_WIDTH ?? 1);
     function turretStuffsBelow() {
         for(let i = 0; i < code.TURRETS.length; i++) {
+            if (isObject(code.TURRETS[i].POSITION)) {
+                code.TURRETS[i].POSITION = [code.TURRETS[i].POSITION.SIZE ?? 1, code.TURRETS[i].POSITION.X ?? 0, code.TURRETS[i].POSITION.Y ?? 0, code.TURRETS[i].POSITION.ANGLE ?? 0, code.TURRETS[i].POSITION.ARC ?? 360, code.TURRETS[i].POSITION.LAYER ?? 0]
+            }
             if (code.TURRETS[i].POSITION[5] === 0) {
                 if (Array.isArray(code.TURRETS[i].TYPE)) {
                     turretCode = {...Class[code.TURRETS[i].TYPE[0]], ...code.TURRETS[i].TYPE[1]}
@@ -294,6 +297,9 @@ const drawEntity = (baseColor, x, y, code, rotation) => {
     }
     function turretStuffsAbove() {
         for(let i = 0; i < code.TURRETS.length; i++) {
+            if (isObject(code.TURRETS[i].POSITION)) {
+                code.TURRETS[i].POSITION = [code.TURRETS[i].POSITION.SIZE ?? 1, code.TURRETS[i].POSITION.X ?? 0, code.TURRETS[i].POSITION.Y ?? 0, code.TURRETS[i].POSITION.ANGLE ?? 0, code.TURRETS[i].POSITION.ARC ?? 360, code.TURRETS[i].POSITION.LAYER ?? 0]
+            }
             if (code.TURRETS[i].POSITION[5] === 1) {
                 if (Array.isArray(code.TURRETS[i].TYPE)) {
                     turretCode = {...Class[code.TURRETS[i].TYPE[0]], ...code.TURRETS[i].TYPE[1]}
@@ -399,9 +405,10 @@ const drawEntity = (baseColor, x, y, code, rotation) => {
     if (code.PROPS) {
         propStuffsBelow()
     }
-    ctx.lineWidth = (zoom*4.175)*(code.STROKE_WIDTH ?? 1);
+    ctx.lineWidth = (zoom*4.175);
     for(let i = 0; i < code.GUNS.length; i++) {
         if (code.GUNS[i].PROPERTIES) {
+            ctx.lineWidth = (zoom*4.175)*(code.GUNS[i].PROPERTIES.STROKE_WIDTH ?? 1);
             ctx.fillStyle = getColor(code.GUNS[i].PROPERTIES.COLOR || "grey");
             ctx.strokeStyle = getColorDark(getColor(code.GUNS[i].PROPERTIES.COLOR || "grey"));
         } else {
